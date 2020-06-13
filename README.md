@@ -1,6 +1,6 @@
 # bookSearch
 React book search.
-[Link to page](https://reekamaharaj.github.io/bookSearch/)
+[Link to page](https://afternoon-fjord-16565.herokuapp.com/)
 
 ## Description
 Book Search is a search app to help you find books!
