@@ -3,7 +3,7 @@ import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
 import { Link } from "react-router-dom";
-import { Col, Row, Container } from "../components/Grid";
+import { Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 
 class Saved extends Component {
@@ -40,10 +40,8 @@ class Saved extends Component {
     render() {
         return (
             <Container fluid>
-                <Row>
-                    <Col size="md-6 sm-12">
                         <Jumbotron>
-                            <h1>Books On My List</h1>
+                            <h1>Saved Books</h1>
                         </Jumbotron>
                         {this.state.books.length ? (
                             <List>
@@ -65,8 +63,6 @@ class Saved extends Component {
                         ) : (
                             <h3>No Results to Display</h3>
                         )}
-                    </Col>
-                </Row>
             </Container>
         );
     }
