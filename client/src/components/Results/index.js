@@ -2,13 +2,13 @@ import React from "react";
 import "./style.css";
 
 const Result = (props) => {
-    // const id = props.id
+
     return (
         <div>
             {props.books.map((book) => {
                 return (
-                    <div className="row justify-content-md-center m-4 p-4 border">
-                        <div className="col-md-12" >
+                    <div className="row justify-content-md-center m-4 p-4 border" key={book.id}>
+                        <div className="col-md-12">
                             <div id="picandbtn">
                                 <img src={book.image} alt={book.title} />
                                 <p className="my-2">
@@ -33,7 +33,7 @@ const Result = (props) => {
                                     className="btn-group"
                                     role="group"
                                     aria-label="Basic example">
-                                    <a href={book.infoLink} target="_blank">
+                                    <a href={book.infoLink} rel="noopener noreferrer" target="_blank">
                                         <button
                                             type="button"
                                             className="btn btn-info">
