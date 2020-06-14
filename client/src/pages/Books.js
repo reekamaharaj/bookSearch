@@ -16,10 +16,29 @@ class Books extends Component {
         this.setState({ query });
     };
 
+    componentDidMount() {
+        this.loadBooks();
+    }
+
+    loadBooks = () => {
+        API.getBooks()
+            .then((res) =>
+                this.setState({
+                    _id: "",
+                    books: res.data,
+                    title: "",
+                    author: "",
+                    synopsis: "",
+                    link: ""
+                })
+            )
+            .catch((err) => console.log(err));
+    };
+
     saveBook = (id) => {
         API.saveBook(id)
-        .then()
-        .catch(err => console.log(err));
+            .then((res) => this.loadBooks())
+            .catch((err) => console.log(err));
     };
 
     handleFormSubmit = (event) => {
@@ -61,7 +80,7 @@ class Books extends Component {
                 {this.state.books.length ? (
                     <div>
                         <h3>Search Results</h3>
-                        <Results books={this.state.books}/>
+                        <Results books={this.state.books} saveBook={this.saveBook}/>
                     </div>
                     
                 ) : (
