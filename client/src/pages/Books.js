@@ -2,22 +2,23 @@ import React, { Component } from "react";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
 import {Container } from "../components/Grid";
-import { Input, FormBtn } from "../components/Form";
-import Results from "../components/Results";
+import Form from "../components/Form";
+// import Results from "../components/Results";
 
 class Books extends Component {
     state = {
         query : "",
-        books: [],
+        books: []
     };
 
     handleInputChange = event => {
-        this.setState({ query: event.target.value });
-    }
+        const query = event.target.value;
+        this.setState({query});
+    };
 
     handleFormSubmit = (event) => {
         event.preventDefault();
-        API.searchGoogleBks(this.state.query).then(response => {
+        API.searchBook(this.state.query).then(response => {
             let responses = response.data;
 
             responses = responses.map(response => {
@@ -28,24 +29,22 @@ class Books extends Component {
                     selfLink: response.selfLink,
                     image: response.imageLinks.thumbnail
                 }
-                return response
+                return response;
             })
             this.setState({ books: responses })
-        })
+        }).catch(err => console.log(err));
     }
 
     render() {
         return (
             <Container fluid>
-                        <Jumbotron>
-                            <h1>Search for Books and Save Ones you want to look at later</h1>
-                        </Jumbotron>
-                        <form>
-                            <Input value={this.state.search} onChange={this.handleInputChange} name="search" placeholder="Search here" />
-                            <FormBtn disabled={ !(this.state.search) } onClick={this.handleFormSubmit}> Search </FormBtn>
-                        </form>
+                <Jumbotron>
+                    <h2>Search for Books and Save Ones you want to look at later</h2>
+                </Jumbotron>
+                <Form handleInputChange={this.handleInputChange}  handleFormSubmit={this.handleFormSubmit}/>
 
-                        <Results books={this.state.books}></Results>
+                {/* <Results books={this.state.books}/> */}
+                <p>Things are going to go here</p>
             </Container>
         )
     }
