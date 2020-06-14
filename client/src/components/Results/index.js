@@ -1,10 +1,28 @@
 import React from "react";
-import { Col, Row } from "../components/Grid";
-import { Link } from "react-router-dom";
-import { List, ListItem } from "../components/List";
 
-function Results(props) {
-    return
-}
-
-export default Results;
+const Result = (props) => {
+    return (
+            <ul className="list-group">
+            {props.books.map(book => {
+                return (
+                    <div>
+                        <li className="list-group-item" key={book._id}>
+                            <img src={book.image} alt={book.title} />
+                            <strong> 
+                                {book.title} by {book.authors} 
+                            </strong>
+                            <button className="btn btn-info" id={book.id} onClick={props.saveBook}>Save</button>
+                            <a href={book.link} target="_blank">
+                                    <button className="btn btn-info">More Info</button>
+                                </a>
+                        </li>
+                        <li className="list-group-item">
+                            {book.description}
+                        </li>
+                    </div>
+                );
+            })}
+            </ul>
+    );
+};
+export default Result;

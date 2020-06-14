@@ -1,52 +1,65 @@
 import React, { Component } from "react";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-import {Container } from "../components/Grid";
+import { Container } from "../components/Grid";
 import Form from "../components/Form";
-// import Results from "../components/Results";
+import Results from "../components/Results";
 
 class Books extends Component {
     state = {
-        query : "",
-        books: []
+        query: "",
+        books: [],
     };
 
-    handleInputChange = event => {
+    handleInputChange = (event) => {
         const query = event.target.value;
-        this.setState({query});
+        this.setState({ query });
+    };
+
+    saveBook = (id) => {
+        API.saveBook(id)
+        .then()
+        .catch(err => console.log(err));
     };
 
     handleFormSubmit = (event) => {
         event.preventDefault();
-        API.searchBook(this.state.query).then(response => {
-            let responses = response.data;
+        API.searchBook(this.state.query)
+            .then(response => {
+                let results = response.data.items;
 
-            responses = responses.map(response => {
-                responses = {
-                    title: response.items.volumeInfo.title,
-                    authors: response.items.volumeInfo.authors,
-                    description: response.items.volumeInfo.description,
-                    selfLink: response.selfLink,
-                    image: response.imageLinks.thumbnail
-                }
-                return response;
+                
+                results = results.map(result => {
+                    result = {
+                        title: result.volumeInfo.title,
+                        authors: result.volumeInfo.authors,
+                        description: result.volumeInfo.description,
+                        selfLink: result.volumeInfo.selfLink,
+                        image: result.volumeInfo.imageLinks.thumbnail,
+                    };
+                    return result;
+                });
+                this.setState({ books: results });
             })
-            this.setState({ books: responses })
-        }).catch(err => console.log(err));
-    }
+            .catch((err) => console.log(err));
+    };
 
     render() {
         return (
             <Container fluid>
                 <Jumbotron>
-                    <h2>Search for Books and Save Ones you want to look at later</h2>
+                    <h2>
+                        Search for Books and Save Ones you want to look at later
+                    </h2>
                 </Jumbotron>
-                <Form handleInputChange={this.handleInputChange}  handleFormSubmit={this.handleFormSubmit}/>
-
-                {/* <Results books={this.state.books}/> */}
-                <p>Things are going to go here</p>
+                <Form
+                    handleInputChange={this.handleInputChange}
+                    handleFormSubmit={this.handleFormSubmit}
+                />
+                <h3>Search Results</h3>
+                <Results books={this.state.books}/>
             </Container>
-        )
+        );
     }
 }
 
