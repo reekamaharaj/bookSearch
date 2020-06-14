@@ -5,33 +5,50 @@ import API from "../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, TextArea, FormBtn } from "../components/Form";
+import { Input, FormBtn } from "../components/Form";
 
 class Books extends Component {
     state = {
+        query : "",
         books: [],
-        title: "",
-        author: "",
-        synopsis: "",
     };
 
     handleInputChange = (event) => {
-        const { name, value } = event.target;
-        this.setState({
-            [name]: value,
-        });
+        const value = event.target.value;
+        this.setState({ query: value });
     };
+
+    search = query => {
+        API.searchGoogleBks(query).then(response => {
+            const books = [];
+            
+            if (response.data.items) {
+                for (let i = 0; i < response.data.items.length; i++ ) {
+                    let searchRes = {};
+
+                    searchRes.title = response.data.items[i].volumeInfo.title;
+
+                    //need to check if there are multiple
+                    let authors = [ ];
+                    for (let j = 0; j < response.data.items[i].authors[j].length; j++ ){
+                        authors.push(response.data.items.authors[j]);
+                    }
+                    searchRes.authors = authors;
+                    searchRes.description = response.data.description;
+                    searchRes.selfLink = response.data.selfLink;
+                    searchRes.image = response.data.imageLinks.thumbnail;
+                    books.push(searchRes);
+                }
+            }
+            this.setState({
+                books: books
+            })
+        });
+    }
 
     handleFormSubmit = (event) => {
         event.preventDefault();
-        if (this.state.title && this.state.author) {
-            API.saveBook({
-                title: this.state.title,
-                author: this.state.author,
-                synopsis: this.state.synopsis,
-            })
-                .then((res) => this.loadBooks())
-                .catch((err) => console.log(err));
+        this.search(this.state.query);
         }
     };
 
@@ -52,6 +69,5 @@ class Books extends Component {
             </Container>
         );
     }
-}
 
 export default Books;
