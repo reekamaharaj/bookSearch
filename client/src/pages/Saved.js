@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import DeleteBtn from "../components/DeleteBtn";
+// import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-import { Link } from "react-router-dom";
-import { Container } from "../components/Grid";
-import { List, ListItem } from "../components/List";
+// import { Link } from "react-router-dom";
+import Container from "../components/Container";
+import Results from "../components/Results";
 
 class Saved extends Component {
     state = {
@@ -22,10 +22,12 @@ class Saved extends Component {
         API.getBooks()
             .then((res) =>
                 this.setState({
+                    _id: "",
                     books: res.data,
                     title: "",
                     author: "",
                     synopsis: "",
+                    link: ""
                 })
             )
             .catch((err) => console.log(err));
@@ -40,29 +42,18 @@ class Saved extends Component {
     render() {
         return (
             <Container fluid>
-                        <Jumbotron>
-                            <h1>Saved Books</h1>
-                        </Jumbotron>
-                        {this.state.books.length ? (
-                            <List>
-                                {this.state.books.map((book) => (
-                                    <ListItem key={book._id}>
-                                        <Link to={"/books/" + book._id}>
-                                            <strong>
-                                                {book.title} by {book.author}
-                                            </strong>
-                                        </Link>
-                                        <DeleteBtn
-                                            onClick={() =>
-                                                this.deleteBook(book._id)
-                                            }
-                                        />
-                                    </ListItem>
-                                ))}
-                            </List>
-                        ) : (
-                            <h3>No Results to Display</h3>
-                        )}
+                <Jumbotron>
+                    <h1>Saved Books</h1>
+                </Jumbotron>
+                {this.state.books.length ? (
+                    <div>
+                        <h3>Saved Books</h3>
+                        <Results books={this.state.books}/>
+                        {/* <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}
+                    </div>
+                ) : (
+                    <h3>No Saved Books to Display</h3>
+                )}
             </Container>
         );
     }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-import { Container } from "../components/Grid";
+import Container from "../components/Container";
 import Form from "../components/Form";
 import Results from "../components/Results";
 
@@ -27,16 +27,18 @@ class Books extends Component {
         API.searchBook(this.state.query)
             .then(response => {
                 let results = response.data.items;
-
+                // console.log(response);
                 
                 results = results.map(result => {
                     result = {
+                        id: result.id,
                         title: result.volumeInfo.title,
                         authors: result.volumeInfo.authors,
                         description: result.volumeInfo.description,
-                        selfLink: result.volumeInfo.selfLink,
+                        infoLink: result.volumeInfo.infoLink,
                         image: result.volumeInfo.imageLinks.thumbnail,
                     };
+                    console.log(result);
                     return result;
                 });
                 this.setState({ books: results });
@@ -56,8 +58,16 @@ class Books extends Component {
                     handleInputChange={this.handleInputChange}
                     handleFormSubmit={this.handleFormSubmit}
                 />
-                <h3>Search Results</h3>
-                <Results books={this.state.books}/>
+                {this.state.books.length ? (
+                    <div>
+                        <h3>Search Results</h3>
+                        <Results books={this.state.books}/>
+                    </div>
+                    
+                ) : (
+                    <h3>No Search Results to Display</h3>
+                )}
+                
             </Container>
         );
     }
