@@ -11,7 +11,7 @@ const Result = (props) => {
                             <strong> 
                                 {book.title} by {book.authors} 
                             </strong>
-                            <button className="btn btn-info" id={book.id} onClick={props.saveBook}>Save</button>
+                            <button className="btn btn-info" id={book.id} onClick={book.saveBook}>Save</button>
                             <a href={book.link} target="_blank">
                                     <button className="btn btn-info">More Info</button>
                                 </a>
