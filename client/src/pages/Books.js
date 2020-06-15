@@ -16,29 +16,14 @@ class Books extends Component {
         this.setState({ query });
     };
 
-    componentDidMount() {
-        this.loadBooks();
-    }
+    saveBook = event => {
+        event.preventDefault();
 
-    loadBooks = () => {
-        API.getBooks()
-            .then((res) =>
-                this.setState({
-                    _id: "",
-                    books: res.data,
-                    title: "",
-                    author: "",
-                    synopsis: "",
-                    link: ""
-                })
-            )
-            .catch((err) => console.log(err));
-    };
-
-    saveBook = (id) => {
-        API.saveBook(id)
-            .then((res) => this.loadBooks())
-            .catch((err) => console.log(err));
+        let savedBookData = this.state.books.filter(book => book.id === event.target.id)
+        savedBookData = savedBookData[0];
+        API.saveBook(savedBookData)
+            .then(alert("Book saved"))
+            .catch(err => console.log(err));
     };
 
     handleFormSubmit = (event) => {

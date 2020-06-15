@@ -1,21 +1,21 @@
 import React from "react";
 import "./style.css";
 
-const Result = (props) => {
+const SavedBooks = (props) => {
 
     return (
         <div>
-            {props.books.map((book) => {
+            {props.savedBookData.map((saved) => {
                 return (
-                    <div className="row justify-content-md-center m-4 p-4 border" key={book.id}>
+                    <div className="row justify-content-md-center m-4 p-4 border" key={saved._id}>
                         <div className="col-md-12">
                             <div id="picandbtn">
-                                <img src={book.image} alt={book.title} />
+                                <img src={saved.image} alt={saved.title} />
                                 <p className="my-2">
-                                    <strong>{book.title}</strong>
+                                    <strong>{saved.title}</strong>
                                 </p>
                                 <p>
-                                    <strong>by {book.authors}</strong>
+                                    <strong>by {saved.authors}</strong>
                                 </p>
                                 <div
                                     className="btn-group mr-2"
@@ -24,16 +24,16 @@ const Result = (props) => {
                                     <button
                                         type="button"
                                         className="btn btn-info"
-                                        id={book.id}
-                                        onClick={event => props.saveBook(event)}>
-                                        Save
+                                        id={saved._id}
+                                        onClick={() => props.deleteBook(saved._id)}>
+                                        Delete
                                     </button>
                                 </div>
                                 <div
                                     className="btn-group"
                                     role="group"
                                     aria-label="Basic example">
-                                    <a href={book.infoLink} rel="noopener noreferrer" target="_blank">
+                                    <a href={saved.infoLink} rel="noopener noreferrer" target="_blank">
                                         <button
                                             type="button"
                                             className="btn btn-info">
@@ -42,7 +42,7 @@ const Result = (props) => {
                                     </a>
                                 </div>
                             </div>
-                            <div className="">{book.description}</div>
+                            <div className="">{saved.description}</div>
                         </div>
                     </div>
                 );
@@ -50,4 +50,4 @@ const Result = (props) => {
         </div>
     );
 };
-export default Result;
+export default SavedBooks;

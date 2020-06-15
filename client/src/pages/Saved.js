@@ -1,17 +1,12 @@
 import React, { Component } from "react";
-// import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-// import { Link } from "react-router-dom";
 import Container from "../components/Container";
-import Results from "../components/Results";
+import SavedBooks from "../components/SavedBooks";
 
 class Saved extends Component {
     state = {
-        books: [],
-        title: "",
-        author: "",
-        synopsis: "",
+        savedBookData: []
     };
 
     componentDidMount() {
@@ -21,14 +16,7 @@ class Saved extends Component {
     loadBooks = () => {
         API.getBooks()
             .then((res) =>
-                this.setState({
-                    _id: "",
-                    books: res.data,
-                    title: "",
-                    author: "",
-                    synopsis: "",
-                    link: ""
-                })
+                this.setState({ savedBookData: res.data })
             )
             .catch((err) => console.log(err));
     };
@@ -45,11 +33,10 @@ class Saved extends Component {
                 <Jumbotron>
                     <h1>Saved Books</h1>
                 </Jumbotron>
-                {this.state.books.length ? (
+                {this.state.savedBookData.length ? (
                     <div>
                         <h3>Saved Books</h3>
-                        <Results books={this.state.books}/>
-                        {/* <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}
+                        <SavedBooks savedBookData={this.state.savedBookData} deleteBook={this.deleteBook}/>
                     </div>
                 ) : (
                     <h3>No Saved Books to Display</h3>

@@ -1,3 +1,8 @@
+.delete-btn {
+    float: right;
+    color: #e74944;
+}
+
 #picandbtn {
     float: left;
     margin-right: 2em;
@@ -8,4 +13,3 @@
 .row {
     background-color: rgb(237, 240, 243);
 }
-
